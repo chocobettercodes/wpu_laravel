@@ -3,6 +3,7 @@
 use App\Http\Controllers\BlogController;
 use App\Models\Blog;
 use Illuminate\Support\Facades\Route;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +31,24 @@ Route::get('/about', function () {
 });
 Route::get('/blog', [BlogController::class, 'index']);
 
-// halaman single post
-Route::get('blog/{slug}', [BlogController::class, 'show']);
+// halaman single post tanpa model binding
+// Route::get('blog/{slug}', [BlogController::class, 'show']);
+// menggunakan model binding
+Route::get('blog/{blog:slug}', [BlogController::class, 'show']);
+
+// menampilkan semua kategori 
+Route::get('/categories', function(){
+    return view('categories', [
+        'tittle' => 'Post Categories',
+        'categories' => Category::all()
+    ]);
+});
+
+// routes untuk category berdasarkan categori yang dipilih
+Route::get('/categories/{category:slug}', function(Category $category){
+    return view('category', [
+        'tittle' => $category->name,
+        'artikel' => $category->blogs,
+        'category' => $category->name
+    ]);
+});
