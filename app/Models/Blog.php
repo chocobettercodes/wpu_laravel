@@ -19,4 +19,8 @@ class Blog extends Model
         // koneksi relasi ke tabel category untuk relasi one to one
         return $this->belongsTo(Category::class);
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
